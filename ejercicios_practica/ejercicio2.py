@@ -40,10 +40,30 @@ if __name__ == '__main__':
     # del JSON recolectado. Al finalizar el bucle deberá tener la data
     # de los 10 usuarios con cuantos títulos completó cada uno.
 
+    response= requests.get(url)
+    todos= response.json()
+    print("Imprimir los datos de la nube")
+    print(json.dumps(todos, indent= 4)) 
+
+    completo_por_usuario = {}
+    for user in todos:
+        if user["completed"]:
+            if user["userId"] in completo_por_usuario:
+                completo_por_usuario[user["userId"]] +=1
+            else:
+                completo_por_usuario[user["userId"]] =1
+
+
     # Debe poder graficar dicha información en un gráfico de barras.
     # En caso de no poder hacer el gráfico comience por usar print
     # para imprimir cuantos títulos completó cada usuario
     # y verifique si los primeros usuarios (mirando la página a ojo)
     # los datos recolectados son correctos.
+
+    plt.bar(completo_por_usuario.keys(),completo_por_usuario.values())
+    plt.xlabel("userId")
+    plt.ylabel("Libro leido")
+    plt.title("Libro leido por user Id")
+    plt.show
 
     print("terminamos")
